@@ -14,19 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const position = i;
       const promiseDelay = delay + (i - 1) * step;
 
-      const promise = createPromise(position, promiseDelay);
-
-      promises.push(promise);
-    }
-
-    try {
-      const results = await Promise.all(promises);
-      results.forEach(({ position, delay }) => {
-        console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-      });
-    } catch (error) {
-      const { position, delay } = error;
-      console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+      createPromise(position, promiseDelay)
+        .then(({ position, delay }) => {
+          console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        })
+        .catch(({ position, delay }) => {
+          console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+        });
     }
   });
 
